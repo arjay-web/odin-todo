@@ -6,5 +6,7 @@ export default merge(common, {
     devtool: 'inline-source-map',
     devServer: {
         static: './dist',
+        hot: true,
+        liveReload: true,
     },
 });

@@ -11,7 +11,8 @@ export default {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Production',
+            template: "./src/template.html",
+            title: 'Todo App',
         }),
     ],
     output: {
