@@ -1,12 +1,25 @@
 import Todo from "../model/todo.js";
 import Project from "../model/project.js"
-export const newProject = new Project('Study');
 
 
+const projects = []
+let acticveProject = null;
+
+
+export function createProject(name){
+    const project = new Project(name);
+    projects.push(project)
+
+    acticveProject = project;
+}
 
 
 export function addTodo(title, description, dueDate, priority){
     const newTodo = new Todo(title, description, dueDate, priority);
-    newProject.addTodo(newTodo)
 
+    if(!acticveProject) return;
+    acticveProject.addTodo(newTodo)
+
+    console.log(projects)
 }
+

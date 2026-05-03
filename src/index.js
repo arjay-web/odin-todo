@@ -1,3 +1,2 @@
 import "./view/dom.js"
-
-console.log('app is running')
+import { newProject } from "./controller/appController.js"
