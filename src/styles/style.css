@@ -15,8 +15,9 @@
 
 .container {
     display: grid;
-    grid-template:  1fr 6fr 1fr/ 1fr 3fr;
+    grid-template:  1fr 7fr 1fr/ 1fr 4fr;
     height: 100vh;
+    gap: var(--space-2);
 }
 
 .header {
@@ -30,6 +31,7 @@
     flex-direction: column;
     gap: 10px;
     align-items: center;
+    border: 2px dashed black;
 }
 
 .projectHeading {

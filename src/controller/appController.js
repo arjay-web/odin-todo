@@ -13,13 +13,14 @@ export function createProject(name){
     acticveProject = project;
 }
 
+export function getProject(){
+    return projects;
+}
 
 export function addTodo(title, description, dueDate, priority){
     const newTodo = new Todo(title, description, dueDate, priority);
 
     if(!acticveProject) return;
     acticveProject.addTodo(newTodo)
-
-    console.log(projects)
 }
 

@@ -15,7 +15,9 @@
             <section class="project-create">
                 <button id="createProjectBtn">+ New Project</button>
             </section>
-            <section class="project-list"></section>
+            <section class="projectContainer">
+                <div id="projectList"></div>
+            </section>
         </aside>
         <main class="main"></main>
         <footer class="footer"></footer>
@@ -23,7 +25,7 @@
 
     <div id="modalProject" class="modal hidden">
         <div class="modal-content">
-            <form action="">
+            <form action="" id="projectForm">
                 <div class="form-row">
                     <h2>Create New Project</h2>
                 </div>
@@ -41,6 +43,5 @@
                 </div>
             </form>
         </div>
-       
 </body>
 </html>
