@@ -1,0 +1,72 @@
+:root {
+  --space-1: 4px;   /* tiny */
+  --space-2: 8px;   /* small */
+  --space-3: 12px;  /* medium-small */
+  --space-4: 16px;  /* default */
+  --space-5: 24px;  /* section */
+  --space-6: 32px;  /* big */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    display: grid;
+    grid-template:  1fr 6fr 1fr/ 1fr 3fr;
+    height: 100vh;
+}
+
+.header {
+    grid-column: 1/3;
+    background-color: red;
+}
+
+.aside {
+    grid-column: 1/2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.projectHeading {
+    width: 100%;
+    padding: var(--space-2);
+}
+
+.main {
+    grid-column: 2/3;
+    grid-row: 2/3;
+    background-color: green;
+}
+
+.footer {
+    grid-column: 1/-1;
+    background-color: orange;
+
+}
+
+/* ---Modal--- */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    padding: var(--space-4);
+    border-radius: var(--space-2);
+}

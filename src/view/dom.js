@@ -1,5 +1,22 @@
 import { addTodo, createProject } from "../controller/appController.js";
+import { initModal } from "./modal.js";
 
+// get DOM elements for modal
+const modal = document.querySelector('#modalProject');
+const createProjectBtn = document.querySelector('#createProjectBtn');
+const closeModalBtn = document.querySelector('#closeModal');
+
+// connect modal system
+
+initModal({
+    openBtn: createProjectBtn,
+    closeBtn: closeModalBtn,
+    modal: modal,
+})
+
+
+
+/*
 const projectForm = document.querySelector('#projectForm');
 const projectName = document.querySelector('#projectName')
 
@@ -11,7 +28,9 @@ const priority = document.querySelector('#priority');
 
 const projectContainer = document.querySelector('#projectContainer')
 
+*/
 
+/*
 projectForm.addEventListener('submit', (e)=>{
     e.preventDefault();
 
@@ -29,4 +48,4 @@ todoForm.addEventListener('submit', (e) =>{
         priority.value
     );
 })
-
+*/
