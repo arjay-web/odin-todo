@@ -25,14 +25,14 @@
             <section>
                 <h2 class="active-project-title">Study</h2>
                 <p class="project-subtitle">Manage your tasks and stay on track.</p>
-                <button class="openModal">Create Task</button>
+                <button class="openTaskModal">Create Task</button>
                 <div class="projectContent"></div>
             </section>
         </main>
         <footer class="footer"></footer>
     </div>
 
-    <div id="modalProject" class="modal hidden">
+    <div id="projectModal" class="modal hidden">
         <div class="modal-content">
             <form action="" id="projectForm">
                 <div class="form-row">
@@ -53,32 +53,34 @@
             </form>
         </div>
     </div>
-    <div id="modalTodo" class="modalTodo hidden">
-        <form action="" id="todoForm">
-            <div class="form-row">
-                <label for="taskTitle">TASK TITLE</label>
-                <input type="text" name="" id="taskTitle">
-            </div>
-            <div class="form-row">
-                <label for="desc">DESCRIPTION</label>
-                <textarea name="" id="desc"></textarea>
-            </div>
-            <div class="form-row">
-                <label for="dueDate">DUE DATE</label>
-                <input type="date" name="" id="dueDate">
-            </div>
-            <div class="form-row">
-                <select name="" id="priority">
-                    <option value="low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                </select>
-            </div>
-            <div class="form-row">
-                <button id="closeTaskModal" type="button">Cancel</button>
-                <button id="createTaskBtn" type="submit">Create Task</button>
-            </div>
-        </form>
+    <div id="todoModal" class="modal hidden">
+        <div class="modal-content">
+            <form action="" id="todoForm">
+                <div class="form-row">
+                    <label for="taskTitle">TASK TITLE</label>
+                    <input type="text" name="" id="taskTitle">
+                </div>
+                <div class="form-row">
+                    <label for="desc">DESCRIPTION</label>
+                    <textarea name="" id="desc"></textarea>
+                </div>
+                <div class="form-row">
+                    <label for="dueDate">DUE DATE</label>
+                    <input type="date" name="" id="dueDate">
+                </div>
+                <div class="form-row">
+                    <select name="" id="priority">
+                        <option value="low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <button id="closeTaskModal" type="button">Cancel</button>
+                    <button id="createTaskBtn" type="submit">Create Task</button>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 

@@ -13,21 +13,24 @@ const projectList = document.querySelector('#projectList');
 const createTaskBtn = document.querySelector('#createTaskBtn');
 const closeTaskModal = document.querySelector('#closeTaskModal');
 const todoModal = document.querySelector('#todoModal')
-console.log(createProjectBtn)
+const openTaskModal = document.querySelector('.openTaskModal')
+
+console.log(openTaskModal)
 // ======================
 // INIT
 // ======================
+initModal({
+    openBtn: openTaskModal,
+    closeBtn: closeTaskModal,
+    modal: todoModal,
+})
 initModal({
     openBtn: createProjectBtn,
     closeBtn: closeModalBtn,
     modal: projectModal,
 })
 
-initModal({
-    openBtn: createTaskBtn,
-    closeBtn: closeTaskModal,
-    modal: todoModal,
-})
+
 projectForm.addEventListener('submit', handleProjectSubmit)
 
 function handleProjectSubmit(e) {
@@ -41,7 +44,7 @@ function handleProjectSubmit(e) {
 
     renderProject()
 
-    closeModal(modal);
+    closeModal(projectModal);
     projectForm.reset()
 }
 
