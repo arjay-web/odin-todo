@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <div class="container">
         <header class="header"></header>
@@ -19,7 +21,14 @@
                 <div id="projectList"></div>
             </section>
         </aside>
-        <main class="main"></main>
+        <main class="main">
+            <section>
+                <h2 class="active-project-title">Study</h2>
+                <p class="project-subtitle">Manage your tasks and stay on track.</p>
+                <button class="openModal">Create Task</button>
+                <div class="projectContent"></div>
+            </section>
+        </main>
         <footer class="footer"></footer>
     </div>
 
@@ -43,5 +52,34 @@
                 </div>
             </form>
         </div>
+    </div>
+    <div id="modalTodo" class="modalTodo hidden">
+        <form action="" id="todoForm">
+            <div class="form-row">
+                <label for="taskTitle">TASK TITLE</label>
+                <input type="text" name="" id="taskTitle">
+            </div>
+            <div class="form-row">
+                <label for="desc">DESCRIPTION</label>
+                <textarea name="" id="desc"></textarea>
+            </div>
+            <div class="form-row">
+                <label for="dueDate">DUE DATE</label>
+                <input type="date" name="" id="dueDate">
+            </div>
+            <div class="form-row">
+                <select name="" id="priority">
+                    <option value="low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <button id="closeTaskModal" type="button">Cancel</button>
+                <button id="createTaskBtn" type="submit">Create Task</button>
+            </div>
+        </form>
+    </div>
 </body>
+
 </html>

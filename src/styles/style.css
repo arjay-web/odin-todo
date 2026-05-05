@@ -42,7 +42,10 @@
 .main {
     grid-column: 2/3;
     grid-row: 2/3;
-    background-color: green;
+    border: 2px dashed black;
+}
+.projectContent {
+    border: 2px dashed black;
 }
 
 .footer {

@@ -3,14 +3,14 @@ import Project from "../model/project.js"
 
 
 const projects = []
-let acticveProject = null;
+let activeProject = null;
 
 
 export function createProject(name){
     const project = new Project(name);
     projects.push(project)
 
-    acticveProject = project;
+    activeProject = project;
 }
 
 export function getProject(){
@@ -19,8 +19,15 @@ export function getProject(){
 
 export function addTodo(title, description, dueDate, priority){
     const newTodo = new Todo(title, description, dueDate, priority);
+    const project = getActiveProject()
 
-    if(!acticveProject) return;
-    acticveProject.addTodo(newTodo)
+    project.addTodo(newTodo);
 }
 
+export function setActiveProject(project){
+    activeProject = project;
+}
+
+export function getActiveProject(){
+    return activeProject;
+}
