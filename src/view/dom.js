@@ -19,7 +19,6 @@ const desc = document.querySelector('#desc');
 const dueDate = document.querySelector('#dueDate');
 const priority = document.querySelector('#priority');
 const projectContent = document.querySelector('.projectContent');
-
 // ======================
 // INIT
 // ======================
@@ -102,20 +101,36 @@ function renderTasks() {
         const divTask = document.createElement('div');
         divTask.classList.add('taskContainer');
 
-        const title = task.title;
         const divTitle = document.createElement('div');
-        divTitle.append(title)
+        divTitle.classList.add('divTitle')
+        divTitle.textContent = task.title
 
-        const priority = task.priority;
+        const taskCheckbox = document.createElement('input');
+        taskCheckbox.type = 'checkbox';
+
         const divPriority = document.createElement('div');
-        divPriority.append(priority)
+        divPriority.textContent = task.priority;
 
-        const dueDate = task.dueDate;
         const divDueDate = document.createElement('div');
-        divDueDate.append(dueDate);
+        divDueDate.textContent = task.dueDate;
 
-        divTask.append(divTitle, divDueDate, divPriority)
+        const editBtn = document.createElement('button');
+        editBtn.textContent = 'Edit';
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+
+        const taskLeft = document.createElement('div');
+        taskLeft.classList.add('taskLeft');
+        taskLeft.append(taskCheckbox, divTitle);
+
+        const taskRight = document.createElement('div');
+        taskRight.classList.add('taskRight');
+        taskRight.append(divDueDate, divPriority, editBtn, deleteBtn)
+
+        divTask.append(taskLeft, taskRight)
 
         projectContent.append(divTask)
     })
 }
+
