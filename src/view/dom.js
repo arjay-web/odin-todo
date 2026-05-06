@@ -1,4 +1,4 @@
-import { addTodo, createProject, getProject, setActiveProject } from "../controller/appController.js";
+import { addTodo, createProject, getProjects, setActiveProject, getTasks } from "../controller/appController.js";
 import { closeModal, initModal } from "./modal.js";
 
 // ======================
@@ -10,12 +10,16 @@ const closeModalBtn = document.querySelector('#closeModal');
 const projectForm = document.querySelector('#projectForm');
 const projectNameInput = document.querySelector('#projectName');
 const projectList = document.querySelector('#projectList');
-const createTaskBtn = document.querySelector('#createTaskBtn');
 const closeTaskModal = document.querySelector('#closeTaskModal');
-const todoModal = document.querySelector('#todoModal')
-const openTaskModal = document.querySelector('.openTaskModal')
+const todoModal = document.querySelector('#todoModal');
+const openTaskModal = document.querySelector('.openTaskModal');
+const todoForm = document.querySelector('#todoForm');
+const title = document.querySelector('#taskTitle');
+const desc = document.querySelector('#desc');
+const dueDate = document.querySelector('#dueDate');
+const priority = document.querySelector('#priority');
+const projectContent = document.querySelector('.projectContent');
 
-console.log(openTaskModal)
 // ======================
 // INIT
 // ======================
@@ -49,7 +53,7 @@ function handleProjectSubmit(e) {
 }
 
 function renderProject() {
-    const projects = getProject();
+    const projects = getProjects();
 
     projectList.innerHTML = '';
 
@@ -68,28 +72,14 @@ function handleProjectClick(e) {
     if (!item) return;
 
     const index = item.dataset.index;
-    const projects = getProject();
+    const projects = getProjects();
 
     const project = projects[index];
 
     setActiveProject(project)
 }
 
-/*
-const todoForm = document.querySelector('#todoForm');
-const title = document.querySelector('#title');
-const desc = document.querySelector('#description');
-const dueDate = document.querySelector('#dueDate');
-const priority = document.querySelector('#priority');
-
-const projectContainer = document.querySelector('#projectContainer')
-
-
-*/
-/*
-
-
-todoForm.addEventListener('submit', (e) =>{
+todoForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     addTodo(
@@ -98,5 +88,34 @@ todoForm.addEventListener('submit', (e) =>{
         dueDate.value,
         priority.value
     );
+
+    renderTasks()
+    todoForm.reset()
+    closeModal(todoModal)
 })
-*/
+
+function renderTasks() {
+    projectContent.innerHTML = "";
+    const tasks = getTasks();
+
+    tasks.forEach((task) => {
+        const divTask = document.createElement('div');
+        divTask.classList.add('taskContainer');
+
+        const title = task.title;
+        const divTitle = document.createElement('div');
+        divTitle.append(title)
+
+        const priority = task.priority;
+        const divPriority = document.createElement('div');
+        divPriority.append(priority)
+
+        const dueDate = task.dueDate;
+        const divDueDate = document.createElement('div');
+        divDueDate.append(dueDate);
+
+        divTask.append(divTitle, divDueDate, divPriority)
+
+        projectContent.append(divTask)
+    })
+}

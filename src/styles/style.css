@@ -1,10 +1,16 @@
 :root {
-  --space-1: 4px;   /* tiny */
-  --space-2: 8px;   /* small */
-  --space-3: 12px;  /* medium-small */
-  --space-4: 16px;  /* default */
-  --space-5: 24px;  /* section */
-  --space-6: 32px;  /* big */
+    --space-1: 4px;
+    /* tiny */
+    --space-2: 8px;
+    /* small */
+    --space-3: 12px;
+    /* medium-small */
+    --space-4: 16px;
+    /* default */
+    --space-5: 24px;
+    /* section */
+    --space-6: 32px;
+    /* big */
 }
 
 * {
@@ -15,7 +21,7 @@
 
 .container {
     display: grid;
-    grid-template:  1fr 7fr 1fr/ 1fr 4fr;
+    grid-template: 1fr 7fr 1fr/ 1fr 4fr;
     height: 100vh;
     gap: var(--space-2);
 }
@@ -44,8 +50,23 @@
     grid-row: 2/3;
     border: 2px dashed black;
 }
+
 .projectContent {
     border: 2px dashed black;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding: var(--space-5);
+}
+
+.taskContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 2px solid #ccc;
+    border-radius: var(--space-2);
+    padding: var(--space-2);
 }
 
 .footer {

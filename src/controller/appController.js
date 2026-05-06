@@ -6,28 +6,37 @@ const projects = []
 let activeProject = null;
 
 
-export function createProject(name){
+export function createProject(name) {
     const project = new Project(name);
     projects.push(project)
 
     activeProject = project;
 }
 
-export function getProject(){
+export function getProjects() {
     return projects;
 }
 
-export function addTodo(title, description, dueDate, priority){
+export function addTodo(title, description, dueDate, priority) {
     const newTodo = new Todo(title, description, dueDate, priority);
     const project = getActiveProject()
 
     project.addTodo(newTodo);
+    console.log(project)
 }
 
-export function setActiveProject(project){
+export function setActiveProject(project) {
     activeProject = project;
 }
 
-export function getActiveProject(){
+export function getActiveProject() {
     return activeProject;
+}
+
+export function getTasks() {
+    const project = getActiveProject()
+
+    if (!project) return []
+
+    return project.todos
 }
