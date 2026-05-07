@@ -1,5 +1,5 @@
-import { addTodo, createProject, getProjects, setActiveProject, getTasks } from "../controller/appController.js";
-import { closeModal, initModal } from "./modal.js";
+import { addTodo, createProject, getProjects, setActiveProject, getTasks, getActiveProject, editTodo } from "../controller/appController.js";
+import { openModal, closeModal, initModal } from "./modal.js";
 
 // ======================
 // DOM ELEMENTS
@@ -32,7 +32,6 @@ initModal({
     closeBtn: closeModalBtn,
     modal: projectModal,
 })
-
 
 projectForm.addEventListener('submit', handleProjectSubmit)
 
@@ -81,13 +80,24 @@ function handleProjectClick(e) {
 todoForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    addTodo(
-        title.value,
-        desc.value,
-        dueDate.value,
-        priority.value
-    );
+    const editIndex = todoForm.dataset.editIndex
 
+    if (editIndex !== undefined) {
+        editTodo(editIndex, {
+            title: title.value,
+            description: desc.value,
+            dueDate: dueDate.value,
+            priority: priority.value
+        })
+        delete todoForm.dataset.editIndex
+    } else {
+        addTodo(
+            title.value,
+            desc.value,
+            dueDate.value,
+            priority.value
+        );
+    }
     renderTasks()
     todoForm.reset()
     closeModal(todoModal)
@@ -97,9 +107,10 @@ function renderTasks() {
     projectContent.innerHTML = "";
     const tasks = getTasks();
 
-    tasks.forEach((task) => {
-        const divTask = document.createElement('div');
-        divTask.classList.add('taskContainer');
+    tasks.forEach((task, index) => {
+        const taskContainer = document.createElement('div');
+        taskContainer.classList.add('taskContainer');
+        taskContainer.dataset.index = index;
 
         const divTitle = document.createElement('div');
         divTitle.classList.add('divTitle')
@@ -115,6 +126,7 @@ function renderTasks() {
         divDueDate.textContent = task.dueDate;
 
         const editBtn = document.createElement('button');
+        editBtn.classList.add('taskEditBtn')
         editBtn.textContent = 'Edit';
 
         const deleteBtn = document.createElement('button');
@@ -128,9 +140,27 @@ function renderTasks() {
         taskRight.classList.add('taskRight');
         taskRight.append(divDueDate, divPriority, editBtn, deleteBtn)
 
-        divTask.append(taskLeft, taskRight)
+        taskContainer.append(taskLeft, taskRight)
 
-        projectContent.append(divTask)
+        projectContent.append(taskContainer)
     })
 }
 
+projectContent.addEventListener('click', (e) => {
+    if (e.target.classList.contains('taskEditBtn')) {
+        const taskContainer = e.target.closest('.taskContainer');
+        const index = taskContainer.dataset.index;
+        todoForm.dataset.editIndex = index;
+
+        const project = getActiveProject()
+        const task = project.todos[index]
+
+        taskTitle.value = task.title;
+        desc.value = task.description;
+        dueDate.value = task.dueDate;
+        priority.value = task.priority
+
+        openModal(todoModal)
+
+    }
+})
