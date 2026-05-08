@@ -1,4 +1,4 @@
-import { addTodo, createProject, getProjects, setActiveProject, getTasks, getActiveProject, editTodo } from "../controller/appController.js";
+import { addTodo, createProject, getProjects, setActiveProject, getTasks, getActiveProject, editTodo, deleteTodo } from "../controller/appController.js";
 import { openModal, closeModal, initModal } from "./modal.js";
 
 // ======================
@@ -31,6 +31,10 @@ initModal({
     openBtn: createProjectBtn,
     closeBtn: closeModalBtn,
     modal: projectModal,
+})
+closeTaskModal.addEventListener('click', () => {
+    delete todoForm.dataset.editId;
+    todoForm.reset();
 })
 
 projectForm.addEventListener('submit', handleProjectSubmit)
@@ -80,16 +84,16 @@ function handleProjectClick(e) {
 todoForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const editIndex = todoForm.dataset.editIndex
+    const editId = todoForm.dataset.editId
 
-    if (editIndex !== undefined) {
-        editTodo(editIndex, {
+    if (editId !== undefined) {
+        editTodo(editId, {
             title: title.value,
             description: desc.value,
             dueDate: dueDate.value,
             priority: priority.value
         })
-        delete todoForm.dataset.editIndex
+        delete todoForm.dataset.editId
     } else {
         addTodo(
             title.value,
@@ -107,10 +111,10 @@ function renderTasks() {
     projectContent.innerHTML = "";
     const tasks = getTasks();
 
-    tasks.forEach((task, index) => {
+    tasks.forEach((task) => {
         const taskContainer = document.createElement('div');
         taskContainer.classList.add('taskContainer');
-        taskContainer.dataset.index = index;
+        taskContainer.dataset.id = task.id;
 
         const divTitle = document.createElement('div');
         divTitle.classList.add('divTitle')
@@ -126,10 +130,11 @@ function renderTasks() {
         divDueDate.textContent = task.dueDate;
 
         const editBtn = document.createElement('button');
-        editBtn.classList.add('taskEditBtn')
+        editBtn.classList.add('taskEditBtn');
         editBtn.textContent = 'Edit';
 
         const deleteBtn = document.createElement('button');
+        deleteBtn.classList.add('taskDeleteBtn');
         deleteBtn.textContent = 'Delete';
 
         const taskLeft = document.createElement('div');
@@ -149,18 +154,26 @@ function renderTasks() {
 projectContent.addEventListener('click', (e) => {
     if (e.target.classList.contains('taskEditBtn')) {
         const taskContainer = e.target.closest('.taskContainer');
-        const index = taskContainer.dataset.index;
-        todoForm.dataset.editIndex = index;
+        const id = taskContainer.dataset.id;
+        todoForm.dataset.editId = id;
 
         const project = getActiveProject()
-        const task = project.todos[index]
+        const task = project.todos.find(task => task.id === id)
 
-        taskTitle.value = task.title;
+        title.value = task.title;
         desc.value = task.description;
         dueDate.value = task.dueDate;
         priority.value = task.priority
 
         openModal(todoModal)
+        console.log(task)
+    }
 
+    if (e.target.classList.contains('taskDeleteBtn')) {
+        const taskContainer = e.target.closest('.taskContainer');
+        const id = taskContainer.dataset.id
+
+        deleteTodo(id)
+        renderTasks()
     }
 })

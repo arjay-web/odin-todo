@@ -16,7 +16,6 @@ export function getProjects() {
     return projects;
 }
 
-
 export function addTodo(title, description, dueDate, priority) {
     const newTodo = new Todo(title, description, dueDate, priority);
     const project = getActiveProject()
@@ -40,12 +39,18 @@ export function getTasks() {
     return project.todos
 }
 
-export function editTodo(index, newData) {
+export function editTodo(id, newData) {
     const project = getActiveProject();
     if (!project) return;
 
-    project.todos[index] = {
-        ...project.todos[index],
-        ...newData
-    }
+    let exisitingData = project.todos.find(t => t.id === id)
+
+    if (!exisitingData) return;
+
+    Object.assign(exisitingData, newData)
+}
+
+export function deleteTodo(id) {
+    const project = getActiveProject();
+    project.deleteTodo(id)
 }

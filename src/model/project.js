@@ -1,9 +1,17 @@
 export default class Project {
-    constructor(name){
+    constructor(name) {
         this.name = name,
-        this.todos = [];
+            this.todos = [];
     }
-    addTodo(todo){
+    addTodo(todo) {
         this.todos.push(todo)
+    }
+
+    deleteTodo(id) {
+        const index = this.todos.findIndex(item => item.id === id)
+
+        if (index === -1) return
+
+        this.todos.splice(index, 1)
     }
 }
