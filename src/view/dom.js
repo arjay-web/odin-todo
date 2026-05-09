@@ -4,29 +4,46 @@ import { openModal, closeModal, initModal } from "./modal.js";
 // ======================
 // DOM ELEMENTS
 // ======================
+// ======================
+// PROJECT MODAL ELEMENTS
+// ======================
 const projectModal = document.querySelector('#projectModal');
 const createProjectBtn = document.querySelector('#createProjectBtn');
 const closeModalBtn = document.querySelector('#closeModal');
+
 const projectForm = document.querySelector('#projectForm');
 const projectNameInput = document.querySelector('#projectName');
-const projectList = document.querySelector('#projectList');
-const closeTaskModal = document.querySelector('#closeTaskModal');
+
+// ======================
+// TODO MODAL ELEMENTS
+// ======================
 const todoModal = document.querySelector('#todoModal');
-const openTaskModal = document.querySelector('.openTaskModal');
+const closeTaskModal = document.querySelector('#closeTaskModal');
+
 const todoForm = document.querySelector('#todoForm');
+
 const title = document.querySelector('#taskTitle');
 const desc = document.querySelector('#desc');
 const dueDate = document.querySelector('#dueDate');
 const priority = document.querySelector('#priority');
-const projectContent = document.querySelector('.projectContent');
+
+
+// ======================
+// PROJECT DISPLAY ELEMENTS
+// ======================
+const projectList = document.querySelector('#projectList');
+
+
+// ======================
+// TASK DISPLAY ELEMENTS
+// ======================
+const main = document.querySelector('.main');
+
+
 // ======================
 // INIT
 // ======================
-initModal({
-    openBtn: openTaskModal,
-    closeBtn: closeTaskModal,
-    modal: todoModal,
-})
+
 initModal({
     openBtn: createProjectBtn,
     closeBtn: closeModalBtn,
@@ -59,26 +76,37 @@ function renderProject() {
 
     projectList.innerHTML = '';
 
-    projects.forEach((project, index) => {
+    projects.forEach((project) => {
+        const projectItemContainer = document.createElement('div');
+        projectItemContainer.classList.add('projectItemContainer');
+
         const projectItem = document.createElement('div');
         projectItem.textContent = project.name;
-        projectItem.dataset.index = index;
+        projectItem.dataset.id = project.id;
 
-        projectList.append(projectItem);
+        const deleteProjectBtn = document.createElement('button');
+        deleteProjectBtn.textContent = 'Delete'
+
+        projectItemContainer.append(projectItem, deleteProjectBtn);
+
+        projectList.append(projectItemContainer);
     })
+
+    renderTasks()
 }
 
 projectList.addEventListener('click', handleProjectClick)
 function handleProjectClick(e) {
-    const item = e.target.closest('[data-index]')
+    const item = e.target.closest('[data-id]')
     if (!item) return;
 
-    const index = item.dataset.index;
+    const id = item.dataset.id;
     const projects = getProjects();
 
-    const project = projects[index];
+    const project = projects.find(p => p.id === id);
 
     setActiveProject(project)
+    renderTasks()
 }
 
 todoForm.addEventListener('submit', (e) => {
@@ -108,8 +136,31 @@ todoForm.addEventListener('submit', (e) => {
 })
 
 function renderTasks() {
-    projectContent.innerHTML = "";
+
+    main.innerHTML = ''
+
+    const activeProjectTitle = document.createElement('h2');
+    activeProjectTitle.textContent = getActiveProject().name
+    activeProjectTitle.classList.add('activeProjectTitle')
+
+    const projectSubtitle = document.createElement('p');
+    projectSubtitle.textContent = 'Manage your tasks and stay on track.';
+    projectSubtitle.classList.add('projectSubtitle')
+
+    const openTaskModal = document.createElement('button');
+    openTaskModal.textContent = 'Create Task';
+    openTaskModal.classList.add('openTaskModal');
+
+    const projectContent = document.createElement('div');
+    projectContent.classList.add('projectContent')
+
     const tasks = getTasks();
+
+    initModal({
+        openBtn: openTaskModal,
+        closeBtn: closeTaskModal,
+        modal: todoModal,
+    })
 
     tasks.forEach((task) => {
         const taskContainer = document.createElement('div');
@@ -149,9 +200,10 @@ function renderTasks() {
 
         projectContent.append(taskContainer)
     })
+    main.append(activeProjectTitle, projectSubtitle, openTaskModal, projectContent)
 }
 
-projectContent.addEventListener('click', (e) => {
+main.addEventListener('click', (e) => {
     if (e.target.classList.contains('taskEditBtn')) {
         const taskContainer = e.target.closest('.taskContainer');
         const id = taskContainer.dataset.id;

@@ -11,6 +11,43 @@
     /* section */
     --space-6: 32px;
     /* big */
+
+    /* Primary Blues */
+    --primary: #2563EB;
+    /* main buttons, active states */
+    --primary-light: #93C5FD;
+    /* accents, highlights */
+    --primary-dark: #1E3A8A;
+    /* hover, strong emphasis */
+
+    /* Backgrounds */
+    --bg: #EFF6FF;
+    /* main page background */
+    --surface: #FFFFFF;
+    /* cards, modals */
+    --surface-alt: #F8FAFC;
+    /* subtle sections */
+
+    /* Text */
+    --text: #0F172A;
+    /* main text */
+    --text-muted: #64748B;
+    /* subtitles / hints */
+
+    /* Borders */
+    --border: #E2E8F0;
+    /* default borders */
+    --border-focus: #93C5FD;
+    /* active input borders */
+
+    /* Status Colors (for tasks) */
+    --success: #22C55E;
+    --warning: #FACC15;
+    --danger: #EF4444;
+    --info: #38BDF8;
+
+    /* UI Effects */
+    --shadow: rgba(37, 99, 235, 0.15);
 }
 
 * {
@@ -21,7 +58,7 @@
 
 .container {
     display: grid;
-    grid-template: auto 1fr auto/ 1fr 4fr;
+    grid-template: 100px 1fr 100px/ 1fr 4fr;
     height: 100vh;
     gap: var(--space-2);
 }
@@ -38,11 +75,45 @@
     gap: 10px;
     align-items: center;
     border: 2px dashed black;
+    background-color: var(--surface-alt);
 }
 
 .projectHeading {
     width: 100%;
     padding: var(--space-2);
+}
+
+.projectContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+#projectList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--space-3);
+}
+
+.projectItemContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--space-2);
+    color: var(--text);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.projectItemContainer:hover {
+    background: var(--primary-light);
+    color: var(--primary-dark);
 }
 
 .main {

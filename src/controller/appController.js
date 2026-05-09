@@ -16,6 +16,14 @@ export function getProjects() {
     return projects;
 }
 
+export function deleteProject(id) {
+    const projects = getProjects();
+    const index = projects.findIndex(item => item.id === id);
+
+    if (index === -1) return
+    projects.splice(index, 1)
+}
+
 export function addTodo(title, description, dueDate, priority) {
     const newTodo = new Todo(title, description, dueDate, priority);
     const project = getActiveProject()
