@@ -2,7 +2,7 @@ import Todo from "../model/todo.js";
 import Project from "../model/project.js"
 
 
-const projects = []
+let projects = []
 let activeProject = null;
 
 export function createProject(name) {
@@ -16,12 +16,15 @@ export function getProjects() {
     return projects;
 }
 
+export function setProjects(newProjects) {
+    projects = newProjects;
+}
+
 export function deleteProject(id) {
     const projects = getProjects();
-    const index = projects.findIndex(item => item.id === id);
+    const updatedProjects = projects.filter(p => p.id !== id);
 
-    if (index === -1) return
-    projects.splice(index, 1)
+    setProjects(updatedProjects)
 }
 
 export function addTodo(title, description, dueDate, priority) {
@@ -61,4 +64,9 @@ export function editTodo(id, newData) {
 export function deleteTodo(id) {
     const project = getActiveProject();
     project.deleteTodo(id)
+}
+
+export function intializeApp() {
+    createProject('Inbox');
+    setActiveProject(getProjects()[0])
 }

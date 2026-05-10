@@ -1,4 +1,4 @@
-import { addTodo, createProject, getProjects, setActiveProject, getTasks, getActiveProject, editTodo, deleteTodo } from "../controller/appController.js";
+import { intializeApp, addTodo, createProject, deleteProject, getProjects, setActiveProject, getTasks, getActiveProject, editTodo, deleteTodo } from "../controller/appController.js";
 import { openModal, closeModal, initModal } from "./modal.js";
 
 // ======================
@@ -82,9 +82,11 @@ function renderProject() {
 
         const projectItem = document.createElement('div');
         projectItem.textContent = project.name;
-        projectItem.dataset.id = project.id;
+
+        projectItemContainer.dataset.id = project.id
 
         const deleteProjectBtn = document.createElement('button');
+        deleteProjectBtn.classList.add('deleteProjectBtn')
         deleteProjectBtn.textContent = 'Delete'
 
         projectItemContainer.append(projectItem, deleteProjectBtn);
@@ -95,18 +97,45 @@ function renderProject() {
     renderTasks()
 }
 
-projectList.addEventListener('click', handleProjectClick)
+projectList.addEventListener('click', handleProjectClick);
+
 function handleProjectClick(e) {
-    const item = e.target.closest('[data-id]')
+
+    // DELETE PROJECT
+    if (e.target.classList.contains('deleteProjectBtn')) {
+
+        const item = e.target.closest('[data-id]');
+        if (!item) return;
+
+        const id = item.dataset.id;
+        const activeProject = getActiveProject();
+
+        deleteProject(id);
+
+        renderProject();
+
+        if (activeProject?.id === id) {
+            main.innerHTML = ''
+        }
+        return;
+    }
+
+    // SELECT PROJECT
+    const item = e.target.closest('.projectItemContainer');
+
     if (!item) return;
 
     const id = item.dataset.id;
+
     const projects = getProjects();
 
     const project = projects.find(p => p.id === id);
 
-    setActiveProject(project)
-    renderTasks()
+    if (!project) return;
+
+    setActiveProject(project);
+
+    renderTasks();
 }
 
 todoForm.addEventListener('submit', (e) => {
@@ -136,7 +165,6 @@ todoForm.addEventListener('submit', (e) => {
 })
 
 function renderTasks() {
-
     main.innerHTML = ''
 
     const activeProjectTitle = document.createElement('h2');
@@ -229,3 +257,7 @@ main.addEventListener('click', (e) => {
         renderTasks()
     }
 })
+
+intializeApp()
+renderProject()
+renderTasks()

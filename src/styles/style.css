@@ -58,7 +58,7 @@
 
 .container {
     display: grid;
-    grid-template: 100px 1fr 100px/ 1fr 4fr;
+    grid-template: 100px 1fr 100px/ 1fr 6fr;
     height: 100vh;
     gap: var(--space-2);
 }
@@ -76,6 +76,30 @@
     align-items: center;
     border: 2px dashed black;
     background-color: var(--surface-alt);
+}
+
+.btnContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#createProjectBtn {
+    width: 80%;
+    max-width: 900px;
+
+    padding: var(--space-3) var(--space-4);
+
+    border: none;
+    border-radius: var(--space-2);
+
+    background-color: var(--primary);
+    color: white;
+
+    cursor: pointer;
+
+    transition: 0.2s;
 }
 
 .projectHeading {
@@ -119,48 +143,126 @@
 .main {
     grid-column: 2/3;
     grid-row: 2/3;
-    border: 2px dashed black;
+
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    align-items: center;
+
+    padding: var(--space-6);
+    background-color: var(--bg);
+
+    overflow-y: auto;
+}
+
+.activeProjectTitle {
+    width: 100%;
+    max-width: 900px;
+
+    font-size: 2rem;
+    color: var(--text);
+}
+
+.projectSubtitle {
+    width: 100%;
+    max-width: 900px;
+
+    color: var(--text-muted);
+    margin-bottom: var(--space-3);
+}
+
+.openTaskModal {
+    width: 100%;
+    max-width: 900px;
+
+    padding: var(--space-3) var(--space-4);
+
+    border: none;
+    border-radius: var(--space-2);
+
+    background-color: var(--primary);
+    color: white;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.openTaskModal:hover {
+    background-color: var(--primary-dark);
 }
 
 .projectContent {
-    border: 2px dashed black;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: var(--space-6);
-    padding: var(--space-5);
     width: 100%;
+    max-width: 900px;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+
+    margin-top: var(--space-5);
 }
 
 .taskContainer {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    border: 2px solid #ccc;
-    border-radius: var(--space-2);
-    padding: var(--space-2);
+    align-items: center;
+
+    padding: var(--space-4);
+
+    background-color: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: var(--space-3);
+
+    box-shadow: 0 4px 10px var(--shadow);
+
+    transition: 0.2s;
+}
+
+.taskContainer:hover {
+    transform: translateY(-2px);
 }
 
 .taskLeft {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    max-inline-size: 66ch;
+    gap: var(--space-3);
+
+    min-width: 0;
+}
+
+.divTitle {
+    font-weight: 500;
+    color: var(--text);
+
+    word-break: break-word;
 }
 
 .taskRight {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
+    gap: var(--space-3);
+
+    flex-shrink: 0;
 }
 
-.divTitle {
-    word-break: break-word;
+.taskRight button {
+    padding: var(--space-2) var(--space-3);
+
+    border: none;
+    border-radius: var(--space-2);
+
+    cursor: pointer;
+}
+
+.taskEditBtn {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+.taskDeleteBtn {
+    background-color: var(--danger);
+    color: white;
 }
 
 .footer {
