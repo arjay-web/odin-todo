@@ -75,7 +75,31 @@
 
 .header {
     grid-column: 1/3;
-    background-color: red;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: var(--space-4) var(--space-6);
+
+    background-color: var(--surface);
+
+    border-bottom: 1px solid var(--border);
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* Optional title styling */
+.header h1 {
+    font-size: 1.2rem;
+    color: var(--text);
+    font-weight: 700;
+}
+
+/* Optional right side (if you add buttons later) */
+.header .header-actions {
+    display: flex;
+    gap: var(--space-3);
 }
 
 .aside {
@@ -328,8 +352,20 @@
 
 .footer {
     grid-column: 1/-1;
-    background-color: orange;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: var(--space-3);
+
+    background-color: var(--surface);
+
+    border-top: 1px solid var(--border);
+
+    color: var(--text-muted);
+
+    font-size: 0.85rem;
 }
 
 /* ===== MODAL OVERLAY ===== */
