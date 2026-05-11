@@ -1,9 +1,10 @@
 export default class Project {
     constructor(name) {
         this.id = crypto.randomUUID();
-        this.name = name;
+        this.name = name.charAt(0).toUpperCase() + name.slice(1);
         this.todos = [];
     }
+
     addTodo(todo) {
         this.todos.push(todo)
     }

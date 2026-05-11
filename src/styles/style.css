@@ -48,6 +48,16 @@
 
     /* UI Effects */
     --shadow: rgba(37, 99, 235, 0.15);
+
+    /* Task Meta Colors */
+    --status-bg: #DCFCE7;
+    --status-text: #166534;
+
+    --date-bg: #DBEAFE;
+    --date-text: #1E3A8A;
+
+    --priority-bg: #FEF3C7;
+    --priority-text: #92400E;
 }
 
 * {
@@ -70,74 +80,125 @@
 
 .aside {
     grid-column: 1/2;
+
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    border: 2px dashed black;
-    background-color: var(--surface-alt);
+    gap: var(--space-5);
+
+    padding: var(--space-5);
+
+    background-color: var(--surface);
+    border-right: 1px solid var(--border);
+
+    overflow-y: auto;
 }
+
+/* ===== PROJECT HEADER ===== */
+
+.projectHeading {
+    width: 100%;
+}
+
+.projectHeading h2 {
+    font-size: 1.2rem;
+    color: var(--text);
+
+    letter-spacing: 0.5px;
+}
+
+/* ===== CREATE BUTTON ===== */
 
 .btnContainer {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 #createProjectBtn {
-    width: 80%;
-    max-width: 900px;
+    width: 100%;
 
     padding: var(--space-3) var(--space-4);
 
     border: none;
-    border-radius: var(--space-2);
+    border-radius: var(--space-3);
 
     background-color: var(--primary);
     color: white;
 
-    cursor: pointer;
+    font-weight: 600;
 
+    cursor: pointer;
     transition: 0.2s;
 }
 
-.projectHeading {
-    width: 100%;
-    padding: var(--space-2);
+#createProjectBtn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
 }
 
+/* ===== PROJECT LIST ===== */
+
 .projectContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 100%;
 }
 
 #projectList {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    gap: var(--space-2);
+
     width: 100%;
-    gap: var(--space-3);
 }
+
+/* ===== PROJECT ITEM ===== */
 
 .projectItemContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 80%;
-    padding: var(--space-3) var(--space-4);
-    border-radius: var(--space-2);
+
+    width: 100%;
+
+    padding: var(--space-3);
+
+    border-radius: var(--space-3);
+
+    background-color: var(--surface-alt);
+
     color: var(--text);
+
     cursor: pointer;
-    transition: 0.2s;
+
+    transition:
+        background-color 0.2s,
+        transform 0.2s;
 }
 
 .projectItemContainer:hover {
-    background: var(--primary-light);
+    background-color: var(--primary-light);
     color: var(--primary-dark);
+
+    transform: translateX(2px);
+}
+
+/* ===== DELETE BUTTON ===== */
+
+.deleteProjectBtn {
+    border: none;
+
+    padding: var(--space-1) var(--space-2);
+
+    border-radius: var(--space-2);
+
+    background-color: transparent;
+
+    color: var(--danger);
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.deleteProjectBtn:hover {
+    background-color: rgba(239, 68, 68, 0.1);
 }
 
 .main {
@@ -271,24 +332,241 @@
 
 }
 
-/* ---Modal--- */
+/* ===== MODAL OVERLAY ===== */
 
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
 
     display: flex;
     justify-content: center;
     align-items: center;
+
+    padding: var(--space-4);
+
+    background: rgba(15, 23, 42, 0.45);
+
+    backdrop-filter: blur(4px);
+
+    z-index: 1000;
 }
 
 .modal.hidden {
     display: none;
 }
 
+/* ===== MODAL BOX ===== */
+
 .modal-content {
-    background: white;
-    padding: var(--space-4);
+    width: 100%;
+    max-width: 500px;
+
+    background-color: var(--surface);
+
+    border-radius: var(--space-4);
+
+    padding: var(--space-5);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.08),
+        0 4px 10px rgba(0, 0, 0, 0.05);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+#projectForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-3);
+}
+
+/* ===== FORM LAYOUT ===== */
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+/* ===== LABELS ===== */
+
+.form-row label {
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    color: var(--text);
+}
+
+/* ===== INPUTS ===== */
+
+.form-row input,
+.form-row textarea,
+.form-row select {
+    width: 100%;
+
+    padding: var(--space-3);
+
+    border: 1px solid var(--border);
     border-radius: var(--space-2);
+
+    background-color: var(--surface-alt);
+
+    font: inherit;
+
+    transition: 0.2s;
+}
+
+.form-row textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-row input:focus,
+.form-row textarea:focus,
+.form-row select:focus {
+    outline: none;
+
+    border-color: var(--border-focus);
+
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.3);
+}
+
+/* ===== BUTTON GROUP ===== */
+
+.btn-group,
+.form-row:last-child {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-2);
+}
+
+/* ===== MODAL BUTTONS ===== */
+
+.modal button {
+    border: none;
+
+    padding: var(--space-2) var(--space-4);
+
+    border-radius: var(--space-2);
+
+    cursor: pointer;
+
+    font-weight: 500;
+
+    transition: 0.2s;
+}
+
+/* PRIMARY BUTTON */
+
+.modal button[type="submit"] {
+    background-color: var(--primary);
+    color: white;
+}
+
+.modal button[type="submit"]:hover {
+    background-color: var(--primary-dark);
+}
+
+/* CANCEL BUTTON */
+
+#closeModal,
+#closeTaskModal {
+    background-color: var(--surface-alt);
+    color: var(--text);
+}
+
+#closeModal:hover,
+#closeTaskModal:hover {
+    background-color: var(--border);
+}
+
+.taskDetails {
+    background-color: var(--surface);
+    width: 700px;
+    max-width: 95%;
+    border-radius: var(--space-3);
+    padding: var(--space-5);
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.detailHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.detailContent {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.metaItem {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.metaItem label {
+    font-size: clamp(0.5rem, 2vw, 0.8rem);
+}
+
+.statusBox {
+    width: 190px;
+    max-width: 100%;
+
+    height: 30px;
+
+    min-width: 0;
+
+    background-color: var(--status-bg);
+    border-radius: var(--space-1);
+}
+
+.dateBox {
+    width: 190px;
+    max-width: 100%;
+
+    height: 30px;
+
+    min-width: 0;
+
+    background-color: var(--date-bg);
+    border-radius: var(--space-1);
+}
+
+.priorityBox {
+    width: 190px;
+    max-width: 100%;
+
+    height: 30px;
+
+    min-width: 0;
+
+    background-color: var(--priority-bg);
+    border-radius: var(--space-1);
+}
+
+.descSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-4);
+}
+
+.taskDescription {
+    height: 100px;
+    width: 100%;
+    background-color: var(--border);
+    border-radius: var(--space-3);
+    padding: var(--space-3);
 }
