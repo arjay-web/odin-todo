@@ -80,22 +80,28 @@
     <div id="taskDetailModal" class="modal hidden">
         <div class="taskDetails">
             <div class="detailHeader">
-                <span>PROJECT: </span>
-                <button>X</button>
+                <span>PROJECT: <span class="renderTitle"></span> </span>
+                <button class="closeDetail">X</button>
             </div>
 
             <div class="detailContent">
                 <div class="metaItem">
                     <label>STATUS</label>
-                    <div class="statusBox"></div>
+                    <div class="statusBox">
+                        <span class="renderStatus"></span>
+                    </div>
                 </div>
                 <div class="metaItem">
                     <label>DUE DATE</label>
-                    <div class="dateBox"></div>
+                    <div class="dateBox">
+                        <span class="renderDate"></span>
+                    </div>
                 </div>
                 <div class="metaItem">
                     <label>PRIORITY</label>
-                    <div class="priorityBox"></div>
+                    <div class="priorityBox">
+                        <span class="renderPriority"></span>
+                    </div>
                 </div>
             </div>
 

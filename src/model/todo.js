@@ -5,6 +5,7 @@ export default class Todo {
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.completed = false
     }
 
     editTodo(title, description, dueDate, priority) {
@@ -12,6 +13,10 @@ export default class Todo {
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+    }
+
+    toggleStatus() {
+        this.completed = !this.completed;
     }
 
 }

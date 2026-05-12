@@ -1,9 +1,6 @@
-import { intializeApp, addTodo, createProject, deleteProject, getProjects, setActiveProject, getTasks, getActiveProject, editTodo, deleteTodo } from "../controller/appController.js";
+import { intializeApp, addTodo, createProject, deleteProject, getProjects, setActiveProject, getTasks, getActiveProject, editTodo, deleteTodo, } from "../controller/appController.js";
 import { openModal, closeModal, initModal } from "./modal.js";
 
-// ======================
-// DOM ELEMENTS
-// ======================
 // ======================
 // PROJECT MODAL ELEMENTS
 // ======================
@@ -27,6 +24,14 @@ const desc = document.querySelector('#desc');
 const dueDate = document.querySelector('#dueDate');
 const priority = document.querySelector('#priority');
 
+// ======================
+// TODO MODAL ELEMENTS
+// ======================
+const renderTitle = document.querySelector('.renderTitle');
+const renderStatus = document.querySelector('.renderStatus');
+const renderDate = document.querySelector('.renderDate');
+const renderPriority = document.querySelector('.renderPriority');
+const taskDescription = document.querySelector('.taskDescription')
 
 // ======================
 // PROJECT DISPLAY ELEMENTS
@@ -39,6 +44,11 @@ const projectList = document.querySelector('#projectList');
 // ======================
 const main = document.querySelector('.main');
 
+// ======================
+// DETAIL MODAL ELEMENTS
+// ======================
+const taskDetailModal = document.querySelector('#taskDetailModal');
+const closeDetail = document.querySelector('.closeDetail');
 
 // ======================
 // INIT
@@ -49,10 +59,15 @@ initModal({
     closeBtn: closeModalBtn,
     modal: projectModal,
 })
+
 closeTaskModal.addEventListener('click', () => {
     delete todoForm.dataset.editId;
     todoForm.reset();
 })
+
+closeDetail.addEventListener('click', () => {
+    closeModal(taskDetailModal);
+});
 
 projectForm.addEventListener('submit', handleProjectSubmit)
 
@@ -200,7 +215,9 @@ function renderTasks() {
         divTitle.textContent = task.title
 
         const taskCheckbox = document.createElement('input');
+        taskCheckbox.classList.add('taskCheckbox')
         taskCheckbox.type = 'checkbox';
+        taskCheckbox.checked = task.completed;
 
         const divPriority = document.createElement('div');
         divPriority.textContent = task.priority;
@@ -232,31 +249,51 @@ function renderTasks() {
 }
 
 main.addEventListener('click', (e) => {
-    if (e.target.classList.contains('taskEditBtn')) {
-        const taskContainer = e.target.closest('.taskContainer');
-        const id = taskContainer.dataset.id;
-        todoForm.dataset.editId = id;
+    const taskContainer = e.target.closest('.taskContainer');
+    if (!taskContainer) return;
 
-        const project = getActiveProject()
-        const task = project.todos.find(task => task.id === id)
+    const id = taskContainer.dataset.id;
+    const project = getActiveProject();
+    const task = project.todos.find(task => task.id === id);
+
+    if (!task) return;
+
+    // EDIT TASK
+    if (e.target.classList.contains('taskEditBtn')) {
+        todoForm.dataset.editId = id;
 
         title.value = task.title;
         desc.value = task.description;
         dueDate.value = task.dueDate;
-        priority.value = task.priority
+        priority.value = task.priority;
 
-        openModal(todoModal)
-        console.log(task)
+        openModal(todoModal);
+        return;
     }
 
+    // DELETE TASK
     if (e.target.classList.contains('taskDeleteBtn')) {
-        const taskContainer = e.target.closest('.taskContainer');
-        const id = taskContainer.dataset.id
-
-        deleteTodo(id)
-        renderTasks()
+        deleteTodo(id);
+        renderTasks();
+        return;
     }
-})
+    // CHECK TASK
+    if (e.target.classList.contains('taskCheckbox')) {
+        task.toggleStatus()
+
+        renderTasks()
+        return;
+    }
+
+    // TASK DETAILS (click anywhere else in container)
+    renderTitle.textContent = task.title;
+    renderStatus.textContent = task.completed ? 'Done' : 'In Progress'
+    renderDate.textContent = task.dueDate;
+    renderPriority.textContent = task.priority;
+    taskDescription.textContent = task.description;
+
+    openModal(taskDetailModal);
+});
 
 intializeApp()
 renderProject()
