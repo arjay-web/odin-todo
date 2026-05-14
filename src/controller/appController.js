@@ -71,9 +71,18 @@ export function deleteTodo(id) {
     saveProjects(projects)
 }
 
+export function toggleStatus(id) {
+    const project = getActiveProject()
+    const todo = project.todos.find(t => t.id === id)
+    if (!todo) return
+    todo.toggleStatus()
+    saveProjects(projects)
+}
+
 export function intializeApp() {
     if (projects.length === 0) {
         createProject('Inbox')
     }
     activeProject = projects[0]
 }
+

@@ -1,4 +1,4 @@
-import { intializeApp, addTodo, createProject, deleteProject, getProjects, setActiveProject, getTasks, getActiveProject, editTodo, deleteTodo, } from "../controller/appController.js";
+import { intializeApp, addTodo, createProject, deleteProject, getProjects, setActiveProject, getTasks, getActiveProject, editTodo, deleteTodo, toggleStatus } from "../controller/appController.js";
 import { openModal, closeModal, initModal } from "./modal.js";
 
 // ======================
@@ -279,7 +279,7 @@ main.addEventListener('click', (e) => {
     }
     // CHECK TASK
     if (e.target.classList.contains('taskCheckbox')) {
-        task.toggleStatus()
+        toggleStatus(id)
 
         renderTasks()
         return;
