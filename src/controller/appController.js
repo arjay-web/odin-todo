@@ -1,8 +1,8 @@
 import Todo from "../model/todo.js";
 import Project from "../model/project.js"
+import { saveProjects, loadProjects } from "./storage.js";
 
-
-let projects = []
+let projects = loadProjects() || []
 let activeProject = null;
 
 export function createProject(name) {
@@ -10,6 +10,7 @@ export function createProject(name) {
     projects.push(project)
 
     activeProject = project;
+    saveProjects(projects)
 }
 
 export function getProjects() {
@@ -25,6 +26,7 @@ export function deleteProject(id) {
     const updatedProjects = projects.filter(p => p.id !== id);
 
     setProjects(updatedProjects)
+    saveProjects(projects)
 }
 
 export function addTodo(title, description, dueDate, priority) {
@@ -32,6 +34,7 @@ export function addTodo(title, description, dueDate, priority) {
     const project = getActiveProject()
 
     project.addTodo(newTodo);
+    saveProjects(projects)
 }
 
 export function setActiveProject(project) {
@@ -59,14 +62,18 @@ export function editTodo(id, newData) {
     if (!exisitingData) return;
 
     Object.assign(exisitingData, newData)
+    saveProjects(projects)
 }
 
 export function deleteTodo(id) {
     const project = getActiveProject();
     project.deleteTodo(id)
+    saveProjects(projects)
 }
 
 export function intializeApp() {
-    createProject('Inbox');
-    setActiveProject(getProjects()[0])
+    if (projects.length === 0) {
+        createProject('Inbox')
+    }
+    activeProject = projects[0]
 }
