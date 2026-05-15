@@ -11,7 +11,6 @@ export function loadProjects() {
 
     const parseData = JSON.parse(data);
 
-    console.log(parseData)
     const restoredProjects = parseData.map(project => {
         const restoredProject = new Project(project.name)
         restoredProject.id = project.id;

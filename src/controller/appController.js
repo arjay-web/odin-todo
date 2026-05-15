@@ -26,7 +26,8 @@ export function deleteProject(id) {
     const updatedProjects = projects.filter(p => p.id !== id);
 
     setProjects(updatedProjects)
-    saveProjects(projects)
+    saveProjects(updatedProjects)
+    activeProject = projects[0]
 }
 
 export function addTodo(title, description, dueDate, priority) {
