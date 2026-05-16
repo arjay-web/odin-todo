@@ -1,5 +1,20 @@
-import { intializeApp, addTodo, createProject, deleteProject, getProjects, setActiveProject, getTasks, getActiveProject, editTodo, deleteTodo, toggleStatus } from "../controller/appController.js";
+import {
+    intializeApp,
+    addTodo,
+    createProject,
+    deleteProject,
+    getProjects,
+    setActiveProject,
+    getTasks,
+    getActiveProject,
+    editTodo,
+    deleteTodo,
+    toggleStatus
+} from "../controller/appController.js";
+
 import { openModal, closeModal, initModal } from "./modal.js";
+import { mdiCalendarMonth, mdiExclamationThick } from '@mdi/js';
+
 
 // ======================
 // PROJECT MODAL ELEMENTS
@@ -10,6 +25,7 @@ const closeModalBtn = document.querySelector('#closeModal');
 
 const projectForm = document.querySelector('#projectForm');
 const projectNameInput = document.querySelector('#projectName');
+
 
 // ======================
 // TODO MODAL ELEMENTS
@@ -24,14 +40,16 @@ const desc = document.querySelector('#desc');
 const dueDate = document.querySelector('#dueDate');
 const priority = document.querySelector('#priority');
 
+
 // ======================
-// TODO MODAL ELEMENTS
+// DETAIL RENDER ELEMENTS
 // ======================
 const renderTitle = document.querySelector('.renderTitle');
 const renderStatus = document.querySelector('.renderStatus');
 const renderDate = document.querySelector('.renderDate');
 const renderPriority = document.querySelector('.renderPriority');
-const taskDescription = document.querySelector('.taskDescription')
+const taskDescription = document.querySelector('.taskDescription');
+
 
 // ======================
 // PROJECT DISPLAY ELEMENTS
@@ -44,48 +62,85 @@ const projectList = document.querySelector('#projectList');
 // ======================
 const main = document.querySelector('.main');
 
+
 // ======================
 // DETAIL MODAL ELEMENTS
 // ======================
 const taskDetailModal = document.querySelector('#taskDetailModal');
 const closeDetail = document.querySelector('.closeDetail');
+const dateBox = document.querySelector('.dateBox');
+const priorityBox = document.querySelector('.priorityBox');
+
 
 // ======================
-// INIT
+// ICON HELPER
 // ======================
+function createIcon(path, className = '') {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
 
+    if (className) svg.classList.add(className);
+
+    const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    pathEl.setAttribute("d", path);
+
+    svg.appendChild(pathEl);
+
+    return svg;
+}
+
+
+// ======================
+// ICON INIT
+// ======================
+const dateIcon = createIcon(mdiCalendarMonth, 'dateIcon');
+dateBox.prepend(dateIcon);
+
+const priorityIcon = createIcon(mdiExclamationThick, 'priorityIcon');
+priorityBox.prepend(priorityIcon);
+
+
+// ======================
+// INIT MODALS
+// ======================
 initModal({
     openBtn: createProjectBtn,
     closeBtn: closeModalBtn,
     modal: projectModal,
-})
+});
 
 closeTaskModal.addEventListener('click', () => {
     delete todoForm.dataset.editId;
     todoForm.reset();
-})
+});
 
 closeDetail.addEventListener('click', () => {
     closeModal(taskDetailModal);
 });
 
-projectForm.addEventListener('submit', handleProjectSubmit)
+
+// ======================
+// PROJECT CREATE
+// ======================
+projectForm.addEventListener('submit', handleProjectSubmit);
 
 function handleProjectSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     const name = projectNameInput.value.trim();
-
     if (!name) return;
 
     createProject(name);
-
-    renderProject()
+    renderProject();
 
     closeModal(projectModal);
-    projectForm.reset()
+    projectForm.reset();
 }
 
+
+// ======================
+// RENDER PROJECTS
+// ======================
 function renderProject() {
     const projects = getProjects();
 
@@ -94,24 +149,29 @@ function renderProject() {
     projects.forEach((project) => {
         const projectItemContainer = document.createElement('div');
         projectItemContainer.classList.add('projectItemContainer');
+        projectItemContainer.dataset.id = project.id;
 
         const projectItem = document.createElement('div');
         projectItem.textContent = project.name;
 
-        projectItemContainer.dataset.id = project.id
-
         const deleteProjectBtn = document.createElement('button');
-        deleteProjectBtn.classList.add('deleteProjectBtn')
-        deleteProjectBtn.textContent = 'Delete'
+        deleteProjectBtn.classList.add('deleteProjectBtn');
+        deleteProjectBtn.textContent = 'Delete';
 
         projectItemContainer.append(projectItem, deleteProjectBtn);
-
         projectList.append(projectItemContainer);
-    })
+    });
 
-    renderTasks()
+    // SAFE: only render tasks if project exists
+    if (getActiveProject()) {
+        renderTasks();
+    }
 }
 
+
+// ======================
+// PROJECT CLICK HANDLER
+// ======================
 projectList.addEventListener('click', handleProjectClick);
 
 function handleProjectClick(e) {
@@ -126,37 +186,35 @@ function handleProjectClick(e) {
         const activeProject = getActiveProject();
 
         deleteProject(id);
-
         renderProject();
 
         if (activeProject?.id === id) {
-            main.innerHTML = ''
+            main.innerHTML = '';
         }
         return;
     }
 
     // SELECT PROJECT
     const item = e.target.closest('.projectItemContainer');
-
     if (!item) return;
 
     const id = item.dataset.id;
 
-    const projects = getProjects();
-
-    const project = projects.find(p => p.id === id);
-
+    const project = getProjects().find(p => p.id === id);
     if (!project) return;
 
     setActiveProject(project);
-
     renderTasks();
 }
 
+
+// ======================
+// TODO CREATE / EDIT
+// ======================
 todoForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const editId = todoForm.dataset.editId
+    const editId = todoForm.dataset.editId;
 
     if (editId !== undefined) {
         editTodo(editId, {
@@ -164,8 +222,9 @@ todoForm.addEventListener('submit', (e) => {
             description: desc.value,
             dueDate: dueDate.value,
             priority: priority.value
-        })
-        delete todoForm.dataset.editId
+        });
+
+        delete todoForm.dataset.editId;
     } else {
         addTodo(
             title.value,
@@ -174,28 +233,40 @@ todoForm.addEventListener('submit', (e) => {
             priority.value
         );
     }
-    renderTasks()
-    todoForm.reset()
-    closeModal(todoModal)
-})
 
+    renderTasks();
+    todoForm.reset();
+    closeModal(todoModal);
+});
+
+
+// ======================
+// RENDER TASKS
+// ======================
 function renderTasks() {
-    main.innerHTML = ''
+    const activeProject = getActiveProject();
+
+    if (!activeProject) {
+        main.innerHTML = "<p>Please select a project</p>";
+        return;
+    }
+
+    main.innerHTML = '';
 
     const activeProjectTitle = document.createElement('h2');
-    activeProjectTitle.textContent = getActiveProject().name
-    activeProjectTitle.classList.add('activeProjectTitle')
+    activeProjectTitle.textContent = activeProject.name;
+    activeProjectTitle.classList.add('activeProjectTitle');
 
     const projectSubtitle = document.createElement('p');
     projectSubtitle.textContent = 'Manage your tasks and stay on track.';
-    projectSubtitle.classList.add('projectSubtitle')
+    projectSubtitle.classList.add('projectSubtitle');
 
     const openTaskModal = document.createElement('button');
     openTaskModal.textContent = 'Create Task';
     openTaskModal.classList.add('openTaskModal');
 
     const projectContent = document.createElement('div');
-    projectContent.classList.add('projectContent')
+    projectContent.classList.add('projectContent');
 
     const tasks = getTasks();
 
@@ -203,7 +274,7 @@ function renderTasks() {
         openBtn: openTaskModal,
         closeBtn: closeTaskModal,
         modal: todoModal,
-    })
+    });
 
     tasks.forEach((task) => {
         const taskContainer = document.createElement('div');
@@ -211,12 +282,12 @@ function renderTasks() {
         taskContainer.dataset.id = task.id;
 
         const divTitle = document.createElement('div');
-        divTitle.classList.add('divTitle')
-        divTitle.textContent = task.title
+        divTitle.classList.add('divTitle');
+        divTitle.textContent = task.title;
 
         const taskCheckbox = document.createElement('input');
-        taskCheckbox.classList.add('taskCheckbox')
         taskCheckbox.type = 'checkbox';
+        taskCheckbox.classList.add('taskCheckbox');
         taskCheckbox.checked = task.completed;
 
         const divPriority = document.createElement('div');
@@ -239,26 +310,31 @@ function renderTasks() {
 
         const taskRight = document.createElement('div');
         taskRight.classList.add('taskRight');
-        taskRight.append(divDueDate, divPriority, editBtn, deleteBtn)
+        taskRight.append(divDueDate, divPriority, editBtn, deleteBtn);
 
-        taskContainer.append(taskLeft, taskRight)
+        taskContainer.append(taskLeft, taskRight);
+        projectContent.append(taskContainer);
+    });
 
-        projectContent.append(taskContainer)
-    })
-    main.append(activeProjectTitle, projectSubtitle, openTaskModal, projectContent)
+    main.append(activeProjectTitle, projectSubtitle, openTaskModal, projectContent);
 }
 
+
+// ======================
+// TASK CLICK HANDLER
+// ======================
 main.addEventListener('click', (e) => {
+
     const taskContainer = e.target.closest('.taskContainer');
     if (!taskContainer) return;
 
     const id = taskContainer.dataset.id;
     const project = getActiveProject();
-    const task = project.todos.find(task => task.id === id);
+    const task = project?.todos.find(t => t.id === id);
 
     if (!task) return;
 
-    // EDIT TASK
+    // EDIT
     if (e.target.classList.contains('taskEditBtn')) {
         todoForm.dataset.editId = id;
 
@@ -271,23 +347,23 @@ main.addEventListener('click', (e) => {
         return;
     }
 
-    // DELETE TASK
+    // DELETE
     if (e.target.classList.contains('taskDeleteBtn')) {
         deleteTodo(id);
         renderTasks();
         return;
     }
-    // CHECK TASK
-    if (e.target.classList.contains('taskCheckbox')) {
-        toggleStatus(id)
 
-        renderTasks()
+    // CHECK
+    if (e.target.classList.contains('taskCheckbox')) {
+        toggleStatus(id);
+        renderTasks();
         return;
     }
 
-    // TASK DETAILS (click anywhere else in container)
+    // DETAILS
     renderTitle.textContent = task.title;
-    renderStatus.textContent = task.completed ? 'Done' : 'In Progress'
+    renderStatus.textContent = task.completed ? 'Done' : 'In Progress';
     renderDate.textContent = task.dueDate;
     renderPriority.textContent = task.priority;
     taskDescription.textContent = task.description;
@@ -295,6 +371,16 @@ main.addEventListener('click', (e) => {
     openModal(taskDetailModal);
 });
 
-intializeApp()
-renderProject()
-renderTasks()
+
+// ======================
+// START APP
+// ======================
+intializeApp();
+renderProject();
+
+// IMPORTANT: don’t force renderTasks here unless project exists
+if (getActiveProject()) {
+    renderTasks();
+}
+
+document.body.classList.add('loaded');

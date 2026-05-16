@@ -27,7 +27,6 @@ export function deleteProject(id) {
 
     setProjects(updatedProjects)
     saveProjects(updatedProjects)
-    activeProject = projects[0]
 }
 
 export function addTodo(title, description, dueDate, priority) {

@@ -70,6 +70,12 @@
 
 body {
     font-family: 'Inter', sans-serif;
+    visibility: hidden;
+
+}
+
+body.loaded {
+    visibility: visible;
 }
 
 .container {
@@ -584,6 +590,9 @@ body {
 
     background-color: var(--date-bg);
     border-radius: var(--space-1);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
 }
 
 .priorityBox {
@@ -596,6 +605,9 @@ body {
 
     background-color: var(--priority-bg);
     border-radius: var(--space-1);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
 }
 
 .descSection {
@@ -611,4 +623,14 @@ body {
     background-color: var(--border);
     border-radius: var(--space-3);
     padding: var(--space-3);
+}
+
+.dateIcon {
+    width: var(--space-5);
+    height: var(--space-5);
+}
+
+.priorityIcon {
+    width: var(--space-5);
+    height: var(--space-5);
 }
