@@ -55,7 +55,7 @@ This project felt like my first real JavaScript application. It helped me become
 
 ## Live Preview
 
-[Live Demo](#)
+[https://arjay-web.github.io/odin-todo/](#)
 
 ## Getting Started
 
