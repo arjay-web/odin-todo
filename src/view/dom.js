@@ -13,7 +13,7 @@ import {
 } from "../controller/appController.js";
 
 import { openModal, closeModal, initModal } from "./modal.js";
-import { mdiCalendarMonth, mdiExclamationThick } from '@mdi/js';
+import { mdiCalendarMonth, mdiExclamationThick, mdiCheckCircleOutline, mdiProgressCheck } from '@mdi/js';
 
 
 // ======================
@@ -70,7 +70,7 @@ const taskDetailModal = document.querySelector('#taskDetailModal');
 const closeDetail = document.querySelector('.closeDetail');
 const dateBox = document.querySelector('.dateBox');
 const priorityBox = document.querySelector('.priorityBox');
-
+const statusIconContainer = document.querySelector('.statusIconContainer')
 
 // ======================
 // ICON HELPER
@@ -361,12 +361,23 @@ main.addEventListener('click', (e) => {
         return;
     }
 
+    statusIconContainer.innerHTML = '';
+
+    const statusPath = task.completed
+        ? mdiCheckCircleOutline
+        : mdiProgressCheck;
+
+    const statusIcon = createIcon(statusPath, 'statusIcon');
+
+    statusIconContainer.append(statusIcon);
+
     // DETAILS
     renderTitle.textContent = task.title;
     renderStatus.textContent = task.completed ? 'Done' : 'In Progress';
     renderDate.textContent = task.dueDate;
     renderPriority.textContent = task.priority;
     taskDescription.textContent = task.description;
+
 
     openModal(taskDetailModal);
 });

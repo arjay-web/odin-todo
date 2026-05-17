@@ -578,6 +578,9 @@ body.loaded {
 
     background-color: var(--status-bg);
     border-radius: var(--space-1);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
 }
 
 .dateBox {
@@ -623,14 +626,12 @@ body.loaded {
     background-color: var(--border);
     border-radius: var(--space-3);
     padding: var(--space-3);
+    word-break: break-all;
 }
 
-.dateIcon {
-    width: var(--space-5);
-    height: var(--space-5);
-}
-
-.priorityIcon {
+.dateIcon,
+.priorityIcon,
+.statusIcon {
     width: var(--space-5);
     height: var(--space-5);
 }
