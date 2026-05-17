@@ -46,6 +46,16 @@
     --danger: #EF4444;
     --info: #38BDF8;
 
+    /* Priority Color */
+    --low: #DCFCE7;
+    --medium: #FEF3C7;
+    --high: #FEE2E2;
+
+    /* Text Color */
+    --low-text: #166534;
+    --medium-text: #92400E;
+    --high-text: #991B1B;
+
     /* UI Effects */
     --shadow: rgba(37, 99, 235, 0.15);
 
@@ -362,12 +372,39 @@ body.loaded {
     color: white;
 }
 
+.lowPriority {
+    background-color: var(--low);
+    color: var(--low-text);
+
+    padding: 6px var(--space-3);
+    border-radius: var(--space-2);
+}
+
+.mediumPriority {
+    background-color: var(--medium);
+    color: var(--medium-text);
+
+    padding: 6px var(--space-3);
+    border-radius: var(--space-2);
+}
+
+.highPriority {
+    background-color: var(--high);
+    color: var(--high-text);
+
+    padding: 6px var(--space-3);
+    border-radius: var(--space-2);
+}
+
 .footer {
     grid-column: 1/-1;
 
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+
+    gap: var(--space-3);
 
     padding: var(--space-3);
 

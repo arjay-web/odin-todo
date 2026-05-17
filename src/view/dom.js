@@ -314,6 +314,14 @@ function renderTasks() {
 
         taskContainer.append(taskLeft, taskRight);
         projectContent.append(taskContainer);
+
+        if (task.priority === 'High') {
+            divPriority.classList.add('highPriority')
+        } else if (task.priority === 'Medium') {
+            divPriority.classList.add('mediumPriority')
+        } else if (task.priority === 'Low') {
+            divPriority.classList.add('lowPriority')
+        }
     });
 
     main.append(activeProjectTitle, projectSubtitle, openTaskModal, projectContent);
